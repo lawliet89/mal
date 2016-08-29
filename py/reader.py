@@ -60,6 +60,10 @@ def read_list(reader):
 def read_vector(reader):
     return read_sequence(reader, mal_types.Vector, '[', ']')
 
+def read_hash_map(reader):
+    sequence = read_sequence(reader, list, '{', '}')
+    return { sequence[i]: sequence[i + 1] for i in range(0, len(sequence), 2) }
+
 def read_from(reader):
     token = reader.peek()
     # macros and transformations
@@ -89,6 +93,8 @@ def read_from(reader):
         return read_list(reader)
     elif token == '[':
         return read_vector(reader)
+    elif token == "{":
+        return read_hash_map(reader)
     else:
         return read_atom(reader)
 

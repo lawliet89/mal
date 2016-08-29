@@ -5,6 +5,11 @@ def pr_str(obj):
         return "(" + " ".join(map(lambda e: pr_str(e), obj)) + ")"
     elif mal_types.is_vector(obj):
         return "[" + " ".join(map(lambda e: pr_str(e), obj)) + "]"
+    elif mal_types.is_hash_map(obj):
+        ret = []
+        for key in obj.keys():
+            ret.extend((pr_str(key), pr_str(obj[key])))
+        return "{" + " ".join(ret) + "}"
     elif mal_types.is_symbol(obj):
         return obj
     elif mal_types.is_nil(obj):

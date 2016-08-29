@@ -36,6 +36,8 @@ def is_list(obj):
 def is_symbol(obj):
     return type(obj) == Symbol
 
-
 def is_vector(obj):
     return type(obj) == Vector
+
+def is_hash_map(obj):
+    return type(obj) == dict
