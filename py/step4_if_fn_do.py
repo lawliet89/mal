@@ -4,6 +4,7 @@ import reader
 import printer
 import traceback
 import mal_types
+import core
 from env import Env
 
 def READ(str):
@@ -72,10 +73,11 @@ def rep(str, env):
 
 def main():
     repl_env = Env(None)
-    repl_env.set(mal_types.Symbol('+'), lambda a,b: a+b)
-    repl_env.set(mal_types.Symbol('-'), lambda a,b: a-b)
-    repl_env.set(mal_types.Symbol('*'), lambda a,b: a*b)
-    repl_env.set(mal_types.Symbol('/'), lambda a,b: int(a/b))
+    for key, value in core.ns.items():
+        repl_env.set(mal_types.Symbol(key), value)
+
+
+    rep("(def! not (fn* (a) (if a false true)))", repl_env)
 
     while True:
         try:

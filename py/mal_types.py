@@ -41,3 +41,35 @@ def is_vector(obj):
 
 def is_hash_map(obj):
     return type(obj) == dict
+
+def is_string(obj):
+    return type(obj) == str
+
+def is_sequential(obj):
+    return is_list(obj) or is_vector(obj)
+
+def is_equal(a, b):
+    type_a, type_b = type(a), type(b)
+    if is_string(a) and is_string(b):
+        return a == b
+    if not (type_a == type_b or (is_sequential(a) and is_sequential(b))):
+        return False;
+    if is_symbol(a):
+        return a == b
+    elif is_list(a) or is_vector(a):
+        if len(a) != len(b): return False
+        for i in range(len(a)):
+            if not is_equal(a[i], b[i]): return False
+        return True
+    elif is_hash_map(a):
+        akeys = a.keys()
+        akeys.sort()
+        bkeys = b.keys()
+        bkeys.sort()
+        if len(akeys) != len(bkeys): return False
+        for i in range(len(akeys)):
+            if akeys[i] != bkeys[i]: return False
+            if not is_equal(a[akeys[i]], b[bkeys[i]]): return False
+        return True
+    else:
+        return a == b
