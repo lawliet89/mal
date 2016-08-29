@@ -43,7 +43,7 @@ def EVAL(ast, env):
                     let_env.set(bindings[i], EVAL(bindings[i + 1], let_env))
                 return EVAL(expr, let_env)
             elif operator == "do":
-                result = eval_ast(ast[1:])
+                result = eval_ast(ast[1:], env)
                 return result[-1]
             elif operator == "if":
                 condition = EVAL(ast[1], env)

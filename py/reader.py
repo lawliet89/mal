@@ -16,6 +16,9 @@ class Reader():
         else:
             return None
 
+def unescape_string(s):
+    return s.replace('\\"', '"').replace('\\n', '\n').replace('\\\\', '\\')
+
 def tokenizer(str):
     regex = re.compile(r"""[\s,]*(~@|[\[\]{}()'`~^@]|"(?:[\\].|[^\\"])*"?|;.*|[^\s\[\]{}()'"`@,;]+)""")
     tokens = [token for token in re.findall(regex, str) if token[0] != ';']
@@ -51,6 +54,11 @@ def read_atom(reader):
         return False
     elif token[0] == ':':
         return mal_types.keyword(token[1:])
+    elif token[0] == '"':
+        if token[-1] == '"':
+            return unescape_string(token[1:-1])
+        else:
+            raise Exception("expected '\"', got EOF")
     else:
         return mal_types.Symbol(token)
 
