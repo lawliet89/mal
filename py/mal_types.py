@@ -1,13 +1,17 @@
 class Symbol(str):
-    @staticmethod
-    def is_symbol(obj):
-        return obj is Symbol
+    pass
+
+
+class Vector(list):
+    pass
+
 
 def keyword(str):
     if str[0] == "\u029e":
         return str
     else:
         return "\u029e" + str
+
 
 def is_keyword(exp):
     if type(exp) == str:
@@ -28,3 +32,10 @@ def is_nil(obj):
 
 def is_list(obj):
     return type(obj) == list
+
+def is_symbol(obj):
+    return type(obj) == Symbol
+
+
+def is_vector(obj):
+    return type(obj) == Vector

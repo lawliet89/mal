@@ -3,7 +3,9 @@ import mal_types
 def pr_str(obj):
     if mal_types.is_list(obj):
         return "(" + " ".join(map(lambda e: pr_str(e), obj)) + ")"
-    elif mal_types.Symbol.is_symbol(obj):
+    elif mal_types.is_vector(obj):
+        return "[" + " ".join(map(lambda e: pr_str(e), obj)) + "]"
+    elif mal_types.is_symbol(obj):
         return obj
     elif mal_types.is_nil(obj):
         return 'nil'

@@ -21,10 +21,11 @@ def tokenizer(str):
     tokens = [token for token in re.findall(regex, str) if token[0] != ';']
     return tokens
 
-def read_list(reader):
-    ast = list()
-    start_token = reader.next() # consume the start token
-    end_token = ')'
+def read_sequence(reader, seq_type, start_token, end_token):
+    ast = seq_type()
+    if reader.next() != start_token: # consume the start token
+        raise Exception("expected '" + start_token + "'")
+
     token = reader.peek()
     while token != end_token:
         if not token:
@@ -53,6 +54,11 @@ def read_atom(reader):
     else:
         return mal_types.Symbol(token)
 
+def read_list(reader):
+    return read_sequence(reader, list, '(', ')')
+
+def read_vector(reader):
+    return read_sequence(reader, mal_types.Vector, '[', ']')
 
 def read_from(reader):
     token = reader.peek()
@@ -81,6 +87,8 @@ def read_from(reader):
         return [mal_types.Symbol('deref'), read_from(reader)]
     elif token == '(':
         return read_list(reader)
+    elif token == '[':
+        return read_vector(reader)
     else:
         return read_atom(reader)
 
