@@ -17,7 +17,7 @@ class Env():
 
     def find(self, key):
         if key in self.data:
-            return self.data[key]
+            return self
         elif self.outer:
             return self.outer.find(key)
         else:
@@ -25,6 +25,9 @@ class Env():
 
     def get(self, key):
         env = self.find(key)
+        # Note: `find` does not return the value directly, because value can be False or None which are falsy
+        # So we will never really be able to tell if we found the value False/None or whether we actually defined
+        # not find anything. This `find` is made to return whether the object exists in this environment or not
         if not env:
             raise Exception("'" + key + "' not found")
-        return env
+        return env.data[key]
