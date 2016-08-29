@@ -21,3 +21,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Add full line editing and command history support to your interpreter REPL.
+# https://github.com/kanaka/mal/blob/master/process/guide.md#optional
