@@ -54,7 +54,10 @@ def EVAL(ast, env):
                 else:
                     return EVAL(ast[2], env)
             elif operator == "fn*":
-                pass
+                def closure(*args):
+                    fn_env = Env(env, ast[1], list(args))
+                    return EVAL(ast[2], fn_env)
+                return closure
             else:
                 eval = eval_ast(ast, env)
                 return eval[0](*eval[1:])
